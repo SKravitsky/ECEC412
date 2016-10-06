@@ -35,7 +35,7 @@ begin
 			when "001" =>
 			  temp <= a or b;
 			when "111" =>
-				if a < b then
+				if signed(a) < signed(b) then
 			  	temp <= (0 => '1', others => '0');
 				else
 					temp <= (others => '0');

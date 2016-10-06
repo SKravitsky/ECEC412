@@ -14,8 +14,8 @@ end DataMemory;
 architecture Structural of DataMemory is
   type mem_array is array(0 to 32) of std_logic_vector(31 downto 0);
   signal data_mem: mem_array := (
-    1 => X"00000004",
-    2 => X"00000005",
+    1 => X"fffffffc",
+    2 => X"fffffffb",
     others => X"00000000"
   );
   signal tempData: std_logic_vector(31 downto 0) := X"00000000";
