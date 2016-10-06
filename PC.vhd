@@ -10,13 +10,14 @@ entity PC is
 end PC;
 
 architecture Behavioral of PC is
-  signal temp: std_logic_vector(31 downto 0) := X"00000000";
 begin
-	AddressOut <= temp;
 	process(clk)
+		variable temp: std_logic_vector(31 downto 0) := X"00000000";
 	begin
-		if clk='1' and clk'event then
-			temp <= AddressIn;
+		AddressOut <= temp;
+		if falling_edge(clk) then
+			temp := AddressIn;
+		else
 		end if;
 	end process;
 end Behavioral;
