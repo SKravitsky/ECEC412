@@ -12,10 +12,10 @@ architecture Structural of SignExtend is
 begin
   process(x)
   begin
-	  if x(15) = '0' then
-		  y <= "0000000000000000" & x;
-	  elsif x(15) = '1' then
-		  y <= "1111111111111111" & x;
-	  end if;
+    if x(15) = '0' then
+      y <= "0000000000000000" & x;
+    elsif x(15) = '1' then
+      y <= "1111111111111111" & x;
+    end if;
   end process;
 end Structural;
