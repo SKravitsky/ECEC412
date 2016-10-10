@@ -1,14 +1,15 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.all;
+library ieee;
+use ieee.std_logic_1164.all;
 
-entity MainControl is
-port(
-     Opcode:in std_logic_vector(5 downto 0);
-     RegDst,Branch,MemRead,MemtoReg,MemWrite,ALUSrc,RegWrite,Jump:out std_logic;
-     ALUOp:out std_logic_vector(1 downto 0));
-end MainControl;
+entity Control is
+  port(
+    Opcode: in std_logic_vector(5 downto 0);
+    RegDst, Branch, MemRead, MemtoReg, MemWrite, ALUSrc, RegWrite, Jump: out std_logic;
+    ALUOp: out std_logic_vector(1 downto 0)
+  );
+end Control;
 
-architecture struct of MainControl is
+architecture Structural of Control is
 begin
   process(Opcode)
     begin
@@ -67,4 +68,4 @@ begin
           null;
     end case;
   end process;
-end struct;
+end Structural;

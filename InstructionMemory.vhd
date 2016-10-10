@@ -1,60 +1,27 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_ARITH.ALL;
-
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 entity InstructionMemory is
-port(Address : in std_logic_vector(31 downto 0);
-		ReadData : out std_logic_vector(31 downto 0));
+	port (
+		Address : in std_logic_vector(31 downto 0);
+		ReadData : out std_logic_vector(31 downto 0)
+	);
 end InstructionMemory;
 
-architecture behav of InstructionMemory is
---Change the size of the array depending on how many bytes are required
--- to execute the desired instructions
-type instruct_array is array (2**8-1 downto 0) of std_logic_vector(7 downto 0);
-signal instruct_temp : instruct_array := 
-  (    0 => "10001101", --lw $s5,0($t0)
-       1 => "00010101",
-       2 => "00000000",
-       3 => "00000000",
-       4 => "10001101", --lw $s6,4($t0)
-       5 => "00010110",
-       6 => "00000000",
-       7 => "00000100",
-       8 => "00000010", --slt $t7,$s5,$s6
-       9 => "10110110",
-      10 => "01111000",
-      11 => "00101010",
-      12 => "00010001", --beq $s7,$zero,L
-      13 => "11100000",
-      14 => "00000000",
-      15 => "00000010",
-      16 => "00000010", --sub $s1,$s2,$3
-      17 => "01000011",
-      18 => "10001000",
-      19 => "00100010",
-      20 => "00001000", --j exit
-      21 => "00000000",
-      22 => "00000000",
-      23 => "00000111",
-      24 => "00000010", --sub $s1,$s2,$s3
-      25 => "01010011",
-      26 => "10001000",
-      27 => "00100010",
-      28 => "10101101", --sw $s3,8($t0)
-      29 => "00010011",
-      30 => "00000000",
-      31 => "00001100",
-  others => "00000000");
-  
+architecture Structural of InstructionMemory is
+	type mem_array is array(0 to 31) of std_logic_vector(31 downto 0);
+	signal inst_mem: mem_array := (
+		0 => X"8d150000", -- lw $s5, 0($t0)
+		1 => X"8d160004", -- lw $s6, 4($t0)
+		2 => X"02b6782a", -- slt $t7, $s5, $s6
+		3 => X"11e00002", -- beq $t7, $zero, L
+		4 => X"02538822", -- sub $s1, $s2, $s3
+		5 => X"08000007", -- j exit
+		6 => X"02538820", -- L: add $s1, $s2, $s3
+		7 => X"ad11000c", -- exit: sw $s1, 12($t0)
+		others => X"00000000"
+	);
 begin
-
-process(Address)
-  variable i : integer;
-begin
-    i := conv_integer(unsigned(Address));
-		ReadData <= instruct_temp(i) & instruct_temp(i+1) & instruct_temp(i+2) &
-		                instruct_temp(i+3);
-end process;
-end behav;
-
+	ReadData <= inst_mem(to_integer(unsigned(Address)) / 4);
+end Structural;
