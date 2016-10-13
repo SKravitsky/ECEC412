@@ -2,11 +2,11 @@ library ieee;
 use ieee.std_logic_1164.ALL;
 
 entity MDR is
-	port (
-		x: in std_logic_vector(31 downto 0);
+  port (
+    x: in std_logic_vector(31 downto 0);
     clk: in std_logic;
     y: out std_logic_vector(31 downto 0)
-	);
+  );
 end MDR;
 
 architecture Structural of MDR is

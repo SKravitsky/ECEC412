@@ -2,11 +2,11 @@ library ieee;
 use ieee.std_logic_1164.ALL;
 
 entity IR is
-	port (
-		x: in std_logic_vector(31 downto 0);
+  port (
+    x: in std_logic_vector(31 downto 0);
     clk, IRWrite: in std_logic;
     y: out std_logic_vector(31 downto 0)
-	);
+  );
 end IR;
 
 architecture Structural of IR is
