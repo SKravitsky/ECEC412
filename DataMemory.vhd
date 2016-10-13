@@ -1,6 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use IEEE.NUMERIC_STD.ALL;
+use ieee.numeric_std.all;
 
 entity DataMemory is
   port(
