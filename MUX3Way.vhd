@@ -9,19 +9,19 @@ entity MUX3Way is
   );
 end MUX3Way;
 
-architecture MUX3Way_Imp of MUX3Way is
-	begin
-	process(sel)
-	begin
-	case sel is
-		when "00" =>
-			z <= w;
-		when "01" =>
-			z <= x;
-		when "10" =>
-			z <= y;
-		when others =>
-			z <= "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
-	end case;
-	end process;
-end MUX3Way_Imp;
+Architecture Structural of MUX3Way is
+begin
+  process(sel)
+  begin
+    case sel is
+      when "00" =>
+	z <= w;
+      when "01" =>
+	z <= x;
+      when "10" =>
+        z <= y;
+      when others =>
+        z <= X"00000000";
+    end case;
+  end process;
+end Structural;
