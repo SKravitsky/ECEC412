@@ -10,13 +10,14 @@ entity RegB is
   );
 end RegB;
 
-architecture Structural of RegA is
+architecture Structural of RegB is
+  signal temp: std_logic_vector(31 downto 0) := X"00000000";
 begin
+  y <= temp;
   process(clk)
     begin
       if rising_edge(clk) then
-        y <= x;
+        temp <= x;
       end if;
   end process;
 end Structural;
-

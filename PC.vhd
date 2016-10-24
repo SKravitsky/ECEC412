@@ -15,7 +15,7 @@ begin
     variable temp: std_logic_vector(31 downto 0) := X"00000000";
   begin
     AddressOut <= temp;
-    if falling_edge(clk) then
+    if rising_edge(clk) then
       temp := AddressIn;
     else
     end if;

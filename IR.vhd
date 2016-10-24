@@ -10,14 +10,14 @@ entity IR is
 end IR;
 
 architecture Structural of IR is
+  signal temp: std_logic_vector(31 downto 0) := X"00000000";
 begin
+  y <= temp;
   process(clk)
-    variable temp: std_logic_vector(31 downto 0) := X"00000000";
   begin
-    y <= temp;
     if rising_edge(clk) then
       if IRWRite = '1' then
-        temp := x;
+        temp <= x;
       end if;
     end if;
   end process;
