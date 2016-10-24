@@ -10,7 +10,7 @@ entity RegB is
   );
 end RegB;
 
-architecture Structural of RegA is
+architecture Structural of RegB is
 begin
   process(clk)
     begin
