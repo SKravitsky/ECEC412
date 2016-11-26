@@ -17,11 +17,11 @@ begin
   process(clk)
   begin
     if rising_edge(clk) then
-        memreaddata_out <= memreaddata;
-        wrregaddress_out <= wrregaddress;
-        aluresult_out <= aluresult;
-    	regwr_out <= regwr;
-    	memtoreg_out <= memtoreg;
+      memreaddata_out <= memreaddata;
+      wrregaddress_out <= wrregaddress;
+      aluresult_out <= aluresult;
+      regwr_out <= regwr;
+      memtoreg_out <= memtoreg;
     else
       memreaddata <= memreaddata_in;
       wrregaddress <= wrregaddress_in;
