@@ -10,13 +10,13 @@ entity MDR is
 end MDR;
 
 architecture Structural of MDR is
+  signal temp: std_logic_vector(31 downto 0) := X"00000000";
 begin
+  y <= temp;
   process(clk)
-    variable temp: std_logic_vector(31 downto 0) := X"00000000";
   begin
-    y <= temp;
     if rising_edge(clk) then
-      temp := x;
+      temp <= x;
     end if;
   end process;
 end Structural;
