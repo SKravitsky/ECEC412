@@ -3,50 +3,46 @@ use ieee.std_logic_1164.all;
 
 entity EXMEMRegister is
   port(
-    clk, aluSrcIn, branchIn, memWriteIn, memReadIn, memToRegIn, regDstIn, regWriteIn: in std_logic;
-    aluOpIn: std_logic_vector(1 downto 0);
-    writeRegisterIn: std_logic_vector(4 downto 0);
-    addressIn, instructionIn, readDataOneIn, readDataTwoIn: std_logic_vector(31 downto 0);
-    branchOut, memWriteOut, memReadOut, memToRegOut, regDstOut, regWriteOut: out std_logic;
-    aluOpOut: std_logic_vector(1 downto 0);
-    writeRegisterOut: std_logic_vector(4 downto 0);
-    addressOut, instructionOut, readDataDataOneOut, readDataTwoOut: out std_logic_vector(31 downto 0)
+    clk, aluSrcIn, BranchIn, MemWriteIn, MemReadIn, MemtoRegIn, regDstIn, RegWriteIn: in std_logic;
+    ALUOpIn: std_logic_vector(1 downto 0);
+    WriteRegisterIn: std_logic_vector(4 downto 0);
+    AddressIn, InstructionIn, ReadDataOneIn, ReadDataTwoIn: std_logic_vector(31 downto 0);
+    BranchOut, MemWriteOut, MemReadOut, MemtoRegOut, regDstOut, RegWriteOut: out std_logic;
+    ALUOpOut: std_logic_vector(1 downto 0);
+    WriteRegisterOut: std_logic_vector(4 downto 0);
+    AddressOut, InstructionOut, readDataDataOneOut, ReadDataTwoOut: out std_logic_vector(31 downto 0)
   );
 end EXMEMRegister;
 
 architecture Structural of EXMEMRegister is
-  signal branch, memWrite, memRead, memToReg, regWrite: std_logic := '0';
-  signal aluOp: std_logic_vector(1 downto 0) := "00";
-  signal writeRegister: std_logic_vector(4 downto 0) := "00000";
-  signal address, instruction, readDataOne, readDataTwo: std_logic_vector(31 downto 0) := X"00000000";
+  signal Branch, MemWrite, MemRead, MemtoReg, RegWrite: std_logic := '0';
+  signal ALUOp: std_logic_vector(1 downto 0) := "00";
+  signal WriteRegister: std_logic_vector(4 downto 0) := "00000";
+  signal Address, Instruction, ReadDataOne, ReadDataTwo: std_logic_vector(31 downto 0) := X"00000000";
 begin
-  addressOut <= address;
-  branchOut <= branch;
-  instructionOut <= instruction;
-  memWriteOut <= memWrite;
-  memReadOut <= memRead;
-  memToRegOut <= memToReg;
-  readDataOneOut <= readDataOne;
-  readDataTwoOut <= readDataTwo;
-  regWriteOut <= regWrite;
-  writeRegisterOut <= writeRegister;
-  writeDataOut <= readData;
-  aluResultOut <= aluResult;
+  AddressOut <= Address;
+  BranchOut <= Branch;
+  InstructionOut <= Instruction;
+  MemWriteOut <= MemWrite;
+  MemReadOut <= MemRead;
+  MemtoRegOut <= MemtoReg;
+  ReadDataOneOut <= ReadDataOne;
+  ReadDataTwoOut <= ReadDataTwo;
+  RegWriteOut <= RegWrite;
+  WriteRegisterOut <= WriteRegister;
 process(clk)
   begin
     if rising_edge(clk) then
-      address <= addressIn;
-      branch <= branchIn;
-      instruction <= instructionIn;
-      memWrite <= memWriteIn;
-      memRead <= memReadIn;
-      memToReg <= memToRegIn;
-      readDataOne <= readDataOneIn;
-      readDataTwo <= readDataTwoIn;
-      regWrite <= regWriteIn;
-      writeRegister <= writeRegisterIn;
-      writeData <= writeDataIn;
-      aluResult <= aluResultIn;
+      Address <= AddressIn;
+      Branch <= BranchIn;
+      Instruction <= InstructionIn;
+      MemWrite <= MemWriteIn;
+      MemRead <= MemReadIn;
+      MemtoReg <= MemtoRegIn;
+      ReadDataOne <= ReadDataOneIn;
+      ReadDataTwo <= ReadDataTwoIn;
+      RegWrite <= RegWriteIn;
+      WriteRegister <= WriteRegisterIn;
     end if;
   end process;
 end Structural;

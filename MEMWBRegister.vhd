@@ -3,33 +3,33 @@ use ieee.std_logic_1164.all;
 
 entity MEMWBRegister is
   port(
-    clk, memToRegIn, regWriteIn: in std_logic;
-    writeRegisterIn: std_logic_vector(4 downto 0);
-    readDataIn aluResultIn: std_logic_vector(31 downto 0);
-    memToRegOut, regWriteOut: out std_logic;
-    writeRegisterOut: std_logic_vector(4 downto 0);
-    readDataOut, aluResultOut: out std_logic_vector(31 downto 0)
+    clk, MemtoRegIn, RegWriteIn: in std_logic;
+    WriteRegisterIn: std_logic_vector(4 downto 0);
+    ReadDataIn ALUResultIn: std_logic_vector(31 downto 0);
+    MemtoRegOut, RegWriteOut: out std_logic;
+    WriteRegisterOut: std_logic_vector(4 downto 0);
+    ReadDataOut, ALUResultOut: out std_logic_vector(31 downto 0)
   );
 end MEMWBRegister;
 
 architecture Structural of MEMWBRegister is
-  signal memToReg, regWrite: std_logic := '0';
-  signal writeRegister: std_logic_vector(4 downto 0) := "00000";
-  signal readData, aluResult: std_logic_vector(31 downto 0) := X"00000000";
+  signal MemtoReg, RegWrite: std_logic := '0';
+  signal WriteRegister: std_logic_vector(4 downto 0) := "00000";
+  signal ReadData, ALUResult: std_logic_vector(31 downto 0) := X"00000000";
 begin
-  memToRegOut <= memToReg;
-  regWriteOut <= regWrite;
-  writeRegisterOut <= writeRegister;
-  readDataOut <= readData;
-  aluResultOut <= aluResult;
+  MemtoRegOut <= MemtoReg;
+  RegWriteOut <= RegWrite;
+  WriteRegisterOut <= WriteRegister;
+  ReadDataOut <= ReadData;
+  ALUResultOut <= ALUResult;
   process(clk)
   begin
     if rising_edge(clk) then
-      memToReg <= memToRegIn;
-      regWrite <= regWriteIn;
-      writeRegister <= writeRegisterIn;
-      readData <= readDataIn;
-      aluResult <= aluResultIn;
+      MemtoReg <= MemtoRegIn;
+      RegWrite <= RegWriteIn;
+      WriteRegister <= WriteRegisterIn;
+      ReadData <= ReadDataIn;
+      ALUResult <= ALUResultIn;
     end if;
   end process;
 end Structural;

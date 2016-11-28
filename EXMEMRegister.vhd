@@ -3,43 +3,43 @@ use ieee.std_logic_1164.all;
 
 entity EXMEMRegister is
   port(
-    clk, branchIn, memWriteIn, memReadIn, memToRegIn, regWriteIn, zeroIn: in std_logic;
+    clk, BranchIn, MemWriteIn, MemReadIn, MemtoRegIn, RegWriteIn, ZeroIn: in std_logic;
     writeRegisterIn: std_logic_vector(4 downto 0);
-    addressIn, aluResultIn, writeDataIn: std_logic_vector(31 downto 0);
-    branchOut, memWriteOut, memReadOut, memToRegOut, regWriteOut, zeroOut: out std_logic;
+    AddressIn, ALUResultIn, WriteDataIn: std_logic_vector(31 downto 0);
+    BranchOut, MemWriteOut, MemReadOut, MemtoRegOut, RegWriteOut, ZeroOut: out std_logic;
     writeRegisterOut: std_logic_vector(4 downto 0);
-    addressOut, aluResultOut, writeDataOut: out std_logic_vector(31 downto 0)
+    AddressOut, ALUResultOut, WriteDataOut: out std_logic_vector(31 downto 0)
   );
 end EXMEMRegister;
 
 architecture Structural of EXMEMRegister is
-  signal branch, memWrite, memRead, memToReg, regWrite, zero: std_logic := '0';
+  signal Branch, MemWrite, MemRead, MemtoReg, RegWrite, Zero: std_logic := '0';
   signal writeRegister: std_logic_vector(4 downto 0) := "00000";
-  signal address, aluResult, writeData: std_logic_vector(31 downto 0) := X"00000000";
+  signal Address, ALUResult, WriteData: std_logic_vector(31 downto 0) := X"00000000";
 begin
-  addressOut <= address;
-  branchOut <= branch;
-  memWriteOut <= memWrite;
-  memReadOut <= memRead;
-  memToRegOut <= memToReg;
-  regWriteOut <= regWrite;
-  zeroOut <= zero;
+  AddressOut <= Address;
+  BranchOut <= Branch;
+  MemWriteOut <= MemWrite;
+  MemReadOut <= MemRead;
+  MemtoRegOut <= MemtoReg;
+  RegWriteOut <= RegWrite;
+  ZeroOut <= Zero;
   writeRegisterOut <= writeRegister;
-  writeDataOut <= readData;
-  aluResultOut <= aluResult;
+  WriteDataOut <= readData;
+  ALUResultOut <= ALUResult;
 process(clk)
   begin
     if rising_edge(clk) then
-      address <= addressIn;
-      branch <= branchIn;
-      memWrite <= memWriteIn;
-      memRead <= memReadIn;
-      memToReg <= memToRegIn;
-      regWrite <= regWriteIn;
-      zero <= zeroIn;
+      Address <= AddressIn;
+      Branch <= BranchIn;
+      MemWrite <= MemWriteIn;
+      MemRead <= MemReadIn;
+      MemtoReg <= MemtoRegIn;
+      RegWrite <= RegWriteIn;
+      Zero <= ZeroIn;
       writeRegister <= writeRegisterIn;
-      writeData <= writeDataIn;
-      aluResult <= aluResultIn;
+      WriteData <= WriteDataIn;
+      ALUResult <= ALUResultIn;
     end if;
   end process;
 end Structural;

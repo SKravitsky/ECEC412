@@ -4,7 +4,7 @@ use ieee.std_logic_1164.all;
 entity IFIDRegister is
   port(
     clk: in std_logic;
-    addressIn, instructionIn: std_logic_vector(31 downto 0);
+    addressIn, instructionIn: in std_logic_vector(31 downto 0);
     addressOut, instructionOut: out std_logic_vector(31 downto 0)
   );
 end IFIDRegister;
