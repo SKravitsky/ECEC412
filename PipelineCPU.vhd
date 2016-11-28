@@ -8,7 +8,7 @@ entity PipelineCPU is
   );
 end PipelineCPU;
 
-architecture Behavioral of CPU is
+architecture Behavioral of PipelineCPU is
   component PC
   	port(
   		clk: in std_logic;
@@ -25,7 +25,7 @@ architecture Behavioral of CPU is
     );
   end component;
 
-  component InstructionMemory
+  component InstructionMemoryPipeline
     port (
       Address: in std_logic_vector(31 downto 0);
       ReadData: out std_logic_vector(31 downto 0)
@@ -43,12 +43,12 @@ architecture Behavioral of CPU is
   component IFIDRegister is
     port(
       clk: in std_logic;
-      addressIn, instructionIn: in std_logic_vector(31 downto 0);
-      addressOut, instructionOut: out std_logic_vector(31 downto 0)
+      AddressIn, InstructionIn: in std_logic_vector(31 downto 0);
+      AddressOut, InstructionOut: out std_logic_vector(31 downto 0)
     );
   end component;
 
-  component RegistersMulticycle is
+  component RegistersPipeline is
     port(
       RR1, RR2, WR: in std_logic_vector(4 downto 0);
       WD: in std_logic_vector(31 downto 0);
@@ -116,7 +116,7 @@ architecture Behavioral of CPU is
     );
   end component;
 
-  component DataMemoryMulticycle is
+  component DataMemoryPipeline is
     port(
       WriteData: in std_logic_vector(31 downto 0);
       Address: in std_logic_vector(31 downto 0);
@@ -160,14 +160,14 @@ architecture Behavioral of CPU is
 begin
   -- Components
   -- IF
-  Mux32_instance_0: Mux32 port map(AddressIF, AddressMEM, PCSrc, PCOut);
+  Mux32_instance_0: Mux32 port map(AddressIF, AddressMEM, PCSrc, PCIn);
   PC_instance: PC port map(clk, PCIn, PCOut);
   Add_instance_0: Add port map(PCOut, X"00000004", AddressIF);
-  InstructionMemory_instance: InstructionMemory port map(PCOut, InstructionIF);
+  InstructionMemory_instance: InstructionMemoryPipeline port map(PCOut, InstructionIF);
   IFIDRegister_instance: IFIDRegister port map(clk, AddressIF, InstructionIF, AddressID, InstructionID);
   -- ID
-  Registers_instance: RegistersMulticycle port map(InstructionID(25 downto 21), InstructionID(20 downto 16), WriteRegisterWB, WriteRegisterData, RegWriteWB, ReadDataOneID, ReadDataTwoID);
-  PipelineControl_instance: PipelineControl port map(InstructionID(5 downto 0), ALUSrcID, BranchID, MemReadID, MemWriteID, MemtoRegID, RegDstID, RegWriteID, ALUOpID);
+  Registers_instance: RegistersPipeline port map(InstructionID(25 downto 21), InstructionID(20 downto 16), WriteRegisterWB, WriteRegisterData, RegWriteWB, ReadDataOneID, ReadDataTwoID);
+  PipelineControl_instance: PipelineControl port map(InstructionID(31 downto 26), ALUSrcID, BranchID, MemReadID, MemWriteID, MemtoRegID, RegDstID, RegWriteID, ALUOpID);
   IDEXRegister_instance: IDEXRegister port map(clk, BranchID, MemWriteID, MemReadID, MemtoRegID, RegDstID, RegWriteID, ALUOpID, AddressID, InstructionID, ReadDataOneID, ReadDataTwoID, BranchEX, MemWriteEX, MemReadEX, MemtoRegEX, RegDstEX, RegWriteEX, ALUOpEX, AddressEX, InstructionEX, ReadDataOneEX, ReadDataTwoEX);
   -- EX
   ALUControl_instance: ALUControl port map(ALUOpEX, InstructionEX(5 downto 0), Operation);
@@ -178,7 +178,7 @@ begin
   EXMEMRegister_instance: EXMEMRegister port map(clk, BranchEX, MemWriteEX, MemReadEX, MemtoRegEX, RegWriteEX, ZeroEX, WriteRegisterEX, AddressEX, ALUResultEX, ReadDataTwoEX, BranchMEM, MemWriteMEM, MemReadMEM, MemtoRegMEM, RegWriteMEM, ZeroMEM, WriteRegisterMEM, AddressMEM, ALUResultMEM, WriteDataMEM);
   -- MEM
   PCSrc <= BranchMEM and ZeroMEM;
-  DataMemory_instance: DataMemoryMulticycle port map(WriteDataMEM, AddressMEM, MemReadMEM, MemWriteMEM, ReadDataMEM);
+  DataMemory_instance: DataMemoryPipeline port map(WriteDataMEM, ALUResultMEM, MemReadMEM, MemWriteMEM, ReadDataMEM);
   MEMWBRegister_instance: MEMWBRegister port map(clk, MemtoRegMEM, RegWriteMEM, WriteRegisterMEM, ReadDataMEM, ALUResultMEM, MemToRegWB, RegWriteWB, WriteRegisterWB, ReadDataWB, ALUResultWB);
   -- WB
   Mux32_instance_2: Mux32 port map(ALUResultWB, ReadDataWB, MemtoRegWB, WriteRegisterData);

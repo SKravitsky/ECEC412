@@ -18,6 +18,7 @@ architecture Structural of IDEXRegister is
   signal Address, Instruction, ReadDataOne, ReadDataTwo: std_logic_vector(31 downto 0) := X"00000000";
 begin
   AddressOut <= Address;
+  ALUOPOut <= ALUOp;
   BranchOut <= Branch;
   InstructionOut <= Instruction;
   MemWriteOut <= MemWrite;
@@ -31,6 +32,7 @@ process(clk)
   begin
     if rising_edge(clk) then
       Address <= AddressIn;
+      ALUOp <= ALUOpIn;
       Branch <= BranchIn;
       Instruction <= InstructionIn;
       MemWrite <= MemWriteIn;
