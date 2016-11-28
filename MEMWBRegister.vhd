@@ -4,10 +4,10 @@ use ieee.std_logic_1164.all;
 entity MEMWBRegister is
   port(
     clk, MemtoRegIn, RegWriteIn: in std_logic;
-    WriteRegisterIn: std_logic_vector(4 downto 0);
-    ReadDataIn ALUResultIn: std_logic_vector(31 downto 0);
+    WriteRegisterIn: in std_logic_vector(4 downto 0);
+    ReadDataIn, ALUResultIn: in std_logic_vector(31 downto 0);
     MemtoRegOut, RegWriteOut: out std_logic;
-    WriteRegisterOut: std_logic_vector(4 downto 0);
+    WriteRegisterOut: out std_logic_vector(4 downto 0);
     ReadDataOut, ALUResultOut: out std_logic_vector(31 downto 0)
   );
 end MEMWBRegister;
