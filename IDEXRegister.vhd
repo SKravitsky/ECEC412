@@ -3,22 +3,23 @@ use ieee.std_logic_1164.all;
 
 entity IDEXRegister is
   port(
-    clk, BranchIn, MemWriteIn, MemReadIn, MemtoRegIn, RegDstIn, RegWriteIn: in std_logic;
+    clk, ALUSrcIn, BranchIn, MemWriteIn, MemReadIn, MemtoRegIn, RegDstIn, RegWriteIn: in std_logic;
     ALUOpIn: std_logic_vector(1 downto 0);
     AddressIn, InstructionIn, ReadDataOneIn, ReadDataTwoIn: std_logic_vector(31 downto 0);
-    BranchOut, MemWriteOut, MemReadOut, MemtoRegOut, RegDstOut, RegWriteOut: out std_logic;
+    ALUSrcOut, BranchOut, MemWriteOut, MemReadOut, MemtoRegOut, RegDstOut, RegWriteOut: out std_logic;
     ALUOpOut: out std_logic_vector(1 downto 0);
     AddressOut, InstructionOut, ReadDataOneOut, ReadDataTwoOut: out std_logic_vector(31 downto 0)
   );
 end IDEXRegister;
 
 architecture Structural of IDEXRegister is
-  signal Branch, MemWrite, MemRead, MemtoReg, RegDst, RegWrite: std_logic := '0';
+  signal ALUSrc, Branch, MemWrite, MemRead, MemtoReg, RegDst, RegWrite: std_logic := '0';
   signal ALUOp: std_logic_vector(1 downto 0) := "00";
   signal Address, Instruction, ReadDataOne, ReadDataTwo: std_logic_vector(31 downto 0) := X"00000000";
 begin
   AddressOut <= Address;
   ALUOPOut <= ALUOp;
+  ALUSrcOut <= ALUSrc;
   BranchOut <= Branch;
   InstructionOut <= Instruction;
   MemWriteOut <= MemWrite;
@@ -33,6 +34,7 @@ process(clk)
     if rising_edge(clk) then
       Address <= AddressIn;
       ALUOp <= ALUOpIn;
+      ALUSrc <= ALUSrcIn;
       Branch <= BranchIn;
       Instruction <= InstructionIn;
       MemWrite <= MemWriteIn;

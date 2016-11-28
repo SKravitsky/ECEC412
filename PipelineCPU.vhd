@@ -67,15 +67,14 @@ architecture Behavioral of PipelineCPU is
 
   component IDEXRegister is
     port(
-      clk, BranchIn, MemWriteIn, MemReadIn, MemtoRegIn, RegDstIn, RegWriteIn: in std_logic;
+      clk, ALUSrcIn, BranchIn, MemWriteIn, MemReadIn, MemtoRegIn, RegDstIn, RegWriteIn: in std_logic;
       ALUOpIn: std_logic_vector(1 downto 0);
       AddressIn, InstructionIn, ReadDataOneIn, ReadDataTwoIn: std_logic_vector(31 downto 0);
-      BranchOut, MemWriteOut, MemReadOut, MemtoRegOut, RegDstOut, RegWriteOut: out std_logic;
+      ALUSrcOut, BranchOut, MemWriteOut, MemReadOut, MemtoRegOut, RegDstOut, RegWriteOut: out std_logic;
       ALUOpOut: out std_logic_vector(1 downto 0);
       AddressOut, InstructionOut, ReadDataOneOut, ReadDataTwoOut: out std_logic_vector(31 downto 0)
     );
   end component;
-
 
   component ALU is
     generic(
@@ -168,7 +167,7 @@ begin
   -- ID
   Registers_instance: RegistersPipeline port map(InstructionID(25 downto 21), InstructionID(20 downto 16), WriteRegisterWB, WriteRegisterData, RegWriteWB, ReadDataOneID, ReadDataTwoID);
   PipelineControl_instance: PipelineControl port map(InstructionID(31 downto 26), ALUSrcID, BranchID, MemReadID, MemWriteID, MemtoRegID, RegDstID, RegWriteID, ALUOpID);
-  IDEXRegister_instance: IDEXRegister port map(clk, BranchID, MemWriteID, MemReadID, MemtoRegID, RegDstID, RegWriteID, ALUOpID, AddressID, InstructionID, ReadDataOneID, ReadDataTwoID, BranchEX, MemWriteEX, MemReadEX, MemtoRegEX, RegDstEX, RegWriteEX, ALUOpEX, AddressEX, InstructionEX, ReadDataOneEX, ReadDataTwoEX);
+  IDEXRegister_instance: IDEXRegister port map(clk, ALUSrcID, BranchID, MemWriteID, MemReadID, MemtoRegID, RegDstID, RegWriteID, ALUOpID, AddressID, InstructionID, ReadDataOneID, ReadDataTwoID, ALUSrcEX, BranchEX, MemWriteEX, MemReadEX, MemtoRegEX, RegDstEX, RegWriteEX, ALUOpEX, AddressEX, InstructionEX, ReadDataOneEX, ReadDataTwoEX);
   -- EX
   ALUControl_instance: ALUControl port map(ALUOpEX, InstructionEX(5 downto 0), Operation);
   MaskedInstruction <= InstructionEX and X"0000FFFF";
