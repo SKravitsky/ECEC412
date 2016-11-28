@@ -43,7 +43,7 @@ begin
         ALUOp <= "01";
       when "000010" => --j
         RegDst <= '0';
-        Branch <= '0';
+        Branch <= '1';
         MemRead <= '0';
         MemtoReg <= '0';
         MemWrite <= '0';

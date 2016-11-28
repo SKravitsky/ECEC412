@@ -135,6 +135,13 @@ architecture Behavioral of PipelineCPU is
     );
   end component;
 
+  component ShiftLeft2 is
+    port(
+      x: in std_logic_vector(31 downto 0);
+      y: out std_logic_vector(31 downto 0)
+    );
+  end component;
+
   -- Signals
   -- IF
   signal AddressIF, InstructionIF, PCIn, PCOut: std_logic_vector(31 downto 0) := X"00000000";
@@ -151,7 +158,7 @@ architecture Behavioral of PipelineCPU is
   -- MEM
   signal PCSrc, BranchMEM, MemWriteMEM, MemReadMEM, MemtoRegMEM, RegWriteMEM, ZeroMEM: std_logic := '0';
   signal WriteRegisterMEM: std_logic_vector(4 downto 0) := "00000";
-  signal AddressMEM, ALUResultMEM, ReadDataMEM, WriteDataMEM: std_logic_vector(31 downto 0) := X"00000000";
+  signal AddressMEM, ALUResultMEM, BranchInstruction, ReadDataMEM, ShiftedInstruction, WriteDataMEM: std_logic_vector(31 downto 0) := X"00000000";
   -- WB
   signal MemtoRegWB, RegWriteWB: std_logic := '0';
   signal WriteRegisterWB: std_logic_vector(4 downto 0) := "00000";
@@ -171,10 +178,12 @@ begin
   -- EX
   ALUControl_instance: ALUControl port map(ALUOpEX, InstructionEX(5 downto 0), Operation);
   MaskedInstruction <= InstructionEX and X"0000FFFF";
+  ShiftLeft2_instance: ShiftLeft2 port map(MaskedInstruction, ShiftedInstruction);
+  Add_instance_1: Add port map(AddressEX, ShiftedInstruction, BranchInstruction);
   Mux32_instance_1: Mux32 port map(ReadDataTwoEX, MaskedInstruction, ALUSrcEX, ALUOperand);
   ALU_instance: ALU port map(ReadDataOneEX, ALUOperand, Operation, ALUResultEX, ZeroEX);
   Mux5_instance: Mux5 port map(InstructionEX(20 downto 16), InstructionEX(15 downto 11), RegDstEX, WriteRegisterEX);
-  EXMEMRegister_instance: EXMEMRegister port map(clk, BranchEX, MemWriteEX, MemReadEX, MemtoRegEX, RegWriteEX, ZeroEX, WriteRegisterEX, AddressEX, ALUResultEX, ReadDataTwoEX, BranchMEM, MemWriteMEM, MemReadMEM, MemtoRegMEM, RegWriteMEM, ZeroMEM, WriteRegisterMEM, AddressMEM, ALUResultMEM, WriteDataMEM);
+  EXMEMRegister_instance: EXMEMRegister port map(clk, BranchEX, MemWriteEX, MemReadEX, MemtoRegEX, RegWriteEX, ZeroEX, WriteRegisterEX, BranchInstruction, ALUResultEX, ReadDataTwoEX, BranchMEM, MemWriteMEM, MemReadMEM, MemtoRegMEM, RegWriteMEM, ZeroMEM, WriteRegisterMEM, AddressMEM, ALUResultMEM, WriteDataMEM);
   -- MEM
   PCSrc <= BranchMEM and ZeroMEM;
   DataMemory_instance: DataMemoryPipeline port map(WriteDataMEM, ALUResultMEM, MemReadMEM, MemWriteMEM, ReadDataMEM);
